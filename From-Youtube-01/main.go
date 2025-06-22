@@ -16,9 +16,16 @@ func main() {
 
 	fmt.Println("4. Build my Applications using Go")
 
+	fmt.Println()
+
 	fmt.Println("*** List of my Tutorials ***")
 
 	fmt.Println("2. Build network automation tools with Go")
 
 	fmt.Println("3. Build Microservices Applications With gRPC")
+
+	fmt.Println()
+
+	fmt.Println("*** My Goals ***")
+	fmt.Println("4. Build my Applications using Go")
 }
