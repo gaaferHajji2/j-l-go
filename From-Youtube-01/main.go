@@ -53,5 +53,5 @@ func main() {
 	fmt.Println(task05)
 
 	fmt.Println("*** Task Of Items ***")
-	fmt.Println(taskSlice)
+	fmt.Println("Tasks", taskSlice)
 }
