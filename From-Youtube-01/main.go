@@ -56,6 +56,6 @@ func main() {
 	// fmt.Println("Tasks", taskSlice)
 
 	for index, task := range taskSlice {
-		fmt.Println("The index is:", index, ", and task is: ", task)
+		fmt.Println(index+1, "--> and task is: ", task)
 	}
 }
