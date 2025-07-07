@@ -5,15 +5,15 @@ import "fmt"
 func main() {
 	// fmt.Print("Hello Go World!\n")
 
-	var task01 = "1. Watch the crash course of Go"
+	var task01 = "Watch the crash course of Go"
 
-	var task02 = "2. Build network automation tools with Go"
+	var task02 = "Build network automation tools with Go"
 
-	var task03 = "3. Build Microservices Applications With gRPC"
+	var task03 = "Build Microservices Applications With gRPC"
 
-	var task04 = "4. Build my Applications using Go"
+	var task04 = "Build my Applications using Go"
 
-	task05 := "5. Test new type of declaring variables"
+	// task05 := "Test new type of declaring variables"
 
 	// var taskSlice = []string{
 	// 	"1. Watch the crash course of Go",
@@ -26,36 +26,37 @@ func main() {
 
 	fmt.Println("##### Welcome to our Todolist App! #####")
 
-	fmt.Println("*** List of my todos ***")
+	// fmt.Println("*** List of my todos ***")
 
-	fmt.Println(task01)
+	// fmt.Println(task01)
 
-	fmt.Println(task02)
+	// fmt.Println(task02)
 
-	fmt.Println(task03)
+	// fmt.Println(task03)
 
-	fmt.Println(task04)
+	// fmt.Println(task04)
 
-	fmt.Println()
+	// fmt.Println()
 
-	fmt.Println("*** List of my Tutorials ***")
+	// fmt.Println("*** List of my Tutorials ***")
 
-	fmt.Println(task02)
+	// fmt.Println(task02)
 
-	fmt.Println(task03)
+	// fmt.Println(task03)
 
-	fmt.Println()
+	// fmt.Println()
 
-	fmt.Println("*** My Goals ***")
-	fmt.Println(task04)
+	// fmt.Println("*** My Goals ***")
+	// fmt.Println(task04)
 
-	fmt.Println("*** New Variable Declaration ***")
-	fmt.Println(task05)
+	// fmt.Println("*** New Variable Declaration ***")
+	// fmt.Println(task05)
 
-	fmt.Println("*** Task Of Items ***")
+	// fmt.Println("*** Task Of Items ***")
 	// fmt.Println("Tasks", taskSlice)
 
 	for index, task := range taskSlice {
-		fmt.Println(index+1, "--> and task is: ", task)
+		// fmt.Println(index+1, ".", task)
+		fmt.Printf("%d. %s\n", index+1, task)
 	}
 }
