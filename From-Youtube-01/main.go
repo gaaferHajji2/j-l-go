@@ -13,6 +13,8 @@ func main() {
 
 	var task04 = "4. Build my Applications using Go"
 
+	task05 := "5. Test new type of declaring variables"
+
 	fmt.Println("##### Welcome to our Todolist App! #####")
 
 	fmt.Println("*** List of my todos ***")
@@ -37,4 +39,7 @@ func main() {
 
 	fmt.Println("*** My Goals ***")
 	fmt.Println(task04)
+
+	fmt.Println("*** New Variable Declaration ***")
+	fmt.Println(task05)
 }
