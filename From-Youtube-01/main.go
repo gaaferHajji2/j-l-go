@@ -53,5 +53,9 @@ func main() {
 	fmt.Println(task05)
 
 	fmt.Println("*** Task Of Items ***")
-	fmt.Println("Tasks", taskSlice)
+	// fmt.Println("Tasks", taskSlice)
+
+	for index, task := range taskSlice {
+		fmt.Println("The index is:", index, ", and task is: ", task)
+	}
 }
