@@ -15,12 +15,14 @@ func main() {
 
 	task05 := "5. Test new type of declaring variables"
 
-	var taskSlice = []string{
-		"1. Watch the crash course of Go",
-		"2. Build network automation tools with Go",
-		"3. Build Microservices Applications With gRPC",
-		"4. Build my Applications using Go",
-	}
+	// var taskSlice = []string{
+	// 	"1. Watch the crash course of Go",
+	// 	"2. Build network automation tools with Go",
+	// 	"3. Build Microservices Applications With gRPC",
+	// 	"4. Build my Applications using Go",
+	// }
+
+	var taskSlice = []string{task01, task02, task03, task04}
 
 	fmt.Println("##### Welcome to our Todolist App! #####")
 
