@@ -15,6 +15,13 @@ func main() {
 
 	task05 := "5. Test new type of declaring variables"
 
+	var taskSlice = []string{
+		"1. Watch the crash course of Go",
+		"2. Build network automation tools with Go",
+		"3. Build Microservices Applications With gRPC",
+		"4. Build my Applications using Go",
+	}
+
 	fmt.Println("##### Welcome to our Todolist App! #####")
 
 	fmt.Println("*** List of my todos ***")
@@ -42,4 +49,7 @@ func main() {
 
 	fmt.Println("*** New Variable Declaration ***")
 	fmt.Println(task05)
+
+	fmt.Println("*** Task Of Items ***")
+	fmt.Println(taskSlice)
 }
