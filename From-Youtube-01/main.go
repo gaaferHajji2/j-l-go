@@ -18,6 +18,7 @@ func main() {
 
 	printTasks(taskItems)
 	fmt.Println()
+	fmt.Println("### Updated List ###")
 	taskItems = addTask(taskItems, "Build network applications")
 	printTasks(taskItems)
 }
