@@ -4,6 +4,8 @@ import "fmt"
 
 func main() {
 
+	fmt.Println("##### Welcome to our Todolist App! #####")
+
 	var task01 = "Watch the crash course of Go"
 
 	var task02 = "Build network automation tools with Go"
@@ -20,7 +22,8 @@ func main() {
 }
 
 func printTasks(taskItems []string) {
-	fmt.Println("##### Welcome to our Todolist App! #####")
+
+	fmt.Println("List of my Todos")
 
 	for index, task := range taskItems {
 		// fmt.Println(index+1, ".", task)
