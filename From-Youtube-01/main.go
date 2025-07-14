@@ -15,6 +15,8 @@ func main() {
 	var taskItems = []string{task01, task02, task03, task04}
 
 	printTasks(taskItems)
+	fmt.Println()
+	addTask(taskItems, "Build network applications")
 }
 
 func printTasks(taskItems []string) {
@@ -24,4 +26,10 @@ func printTasks(taskItems []string) {
 		// fmt.Println(index+1, ".", task)
 		fmt.Printf("%d. %s\n", index+1, task)
 	}
+}
+
+func addTask(taskItems []string, newTask string) {
+	var updatedTaskItems = append(taskItems, newTask)
+
+	printTasks(updatedTaskItems)
 }
