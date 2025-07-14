@@ -18,7 +18,8 @@ func main() {
 
 	printTasks(taskItems)
 	fmt.Println()
-	addTask(taskItems, "Build network applications")
+	taskItems = addTask(taskItems, "Build network applications")
+	printTasks(taskItems)
 }
 
 func printTasks(taskItems []string) {
@@ -31,8 +32,8 @@ func printTasks(taskItems []string) {
 	}
 }
 
-func addTask(taskItems []string, newTask string) {
+func addTask(taskItems []string, newTask string) []string {
 	var updatedTaskItems = append(taskItems, newTask)
 
-	printTasks(updatedTaskItems)
+	return updatedTaskItems
 }
