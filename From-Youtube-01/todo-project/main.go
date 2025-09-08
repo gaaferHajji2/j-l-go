@@ -31,7 +31,7 @@ func showTasks(responseWriter http.ResponseWriter, request *http.Request) {
 
 func printTasks(responseWriter http.ResponseWriter, taskItems []string) {
 
-	fmt.Println("List of my Todos")
+	fmt.Fprintln(responseWriter, "List of my Todos")
 
 	for index, task := range taskItems {
 		// fmt.Println(index+1, ".", task)
