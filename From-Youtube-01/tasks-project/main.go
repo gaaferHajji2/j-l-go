@@ -7,11 +7,8 @@ func main() {
 	fmt.Println("##### Welcome to our Todolist App! #####")
 
 	var task01 = "Watch the crash course of Go"
-
 	var task02 = "Build network automation tools with Go"
-
 	var task03 = "Build Microservices Applications With gRPC"
-
 	var task04 = "Build my Applications using Go"
 
 	var taskItems = []string{task01, task02, task03, task04}
