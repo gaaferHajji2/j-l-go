@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"io"
 )
 
 func main() {
@@ -19,8 +20,10 @@ func main() {
 
 	defer f.Close()
 
+	writer := io.MultiWriter(f, os.Stderr)
+
 	// jlokaLogger := log.New(f, "jloka", log.LstdFlags)
-	jlokaLogger := log.New(f, "jloka ", log.Ldate|log.Ltime|log.Lshortfile)
+	jlokaLogger := log.New(writer, "jloka ==> ", log.Ldate|log.Ltime|log.Lshortfile)
 	jlokaLogger.Println("Hi Jafar Loka Custom Logger World")
 	jlokaLogger.Println("I am ITE Developer")
 }
