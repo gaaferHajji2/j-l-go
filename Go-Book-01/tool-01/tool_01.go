@@ -54,7 +54,7 @@ func main() {
 			fmt.Println("----------------------------")
 			fmt.Println("The full path is: ", fullpath)
 			fmt.Println("----------------------------")
-			return
+			// return
 		} else {
 			// fmt.Println("Not executable")
 			// fmt.Println("The mode is: ", mode&0111)
