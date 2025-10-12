@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"math"
 )
 
 func main() {
@@ -47,8 +48,28 @@ func main() {
 		}
 	}
 
-	fmt.Println("The number of values is: #", nValues)
+	fmt.Printf("The number of values is: #%d\n", nValues)
 	fmt.Println("The minimum value is: ", min)
 	fmt.Println("The maximum value is: ", max)
 	fmt.Println("The sum of all numbers: ", sum)
+
+	if nValues == 0 {
+		return
+	}
+
+	meanValue := sum / float64(nValues)
+	fmt.Printf("The mean value is: %.5f\n", meanValue)
+
+	var squared float64
+	for i := 1; i< len(args); i++ {
+		t3, err := strconv.ParseFloat(args[i], 64)
+		if err != nil {
+			continue
+		}
+
+		squared = squared + math.Pow((t3-meanValue), 2)
+	}
+
+	standardDevision := math.Sqrt(squared / float64(nValues))
+	fmt.Printf("The std devision is: %.5f", standardDevision)
 }
