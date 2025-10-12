@@ -19,7 +19,8 @@ func main() {
 
 	defer f.Close()
 
-	jlokaLogger := log.New(f, "jloka", log.LstdFlags)
+	// jlokaLogger := log.New(f, "jloka", log.LstdFlags)
+	jlokaLogger := log.New(f, "jloka", log.Ldate|log.Ltime|log.Lshortfile)
 	jlokaLogger.Println("Hi Jafar Loka Custom Logger World")
 	jlokaLogger.Println("I am ITE Developer")
 }
