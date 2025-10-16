@@ -62,12 +62,12 @@ func main() {
 
 	var squared float64
 	for i := 1; i< len(args); i++ {
-		t3, err := strconv.ParseFloat(args[i], 64)
+		parsedValue, err := strconv.ParseFloat(args[i], 64)
 		if err != nil {
 			continue
 		}
 
-		squared = squared + math.Pow((t3-meanValue), 2)
+		squared = squared + math.Pow(( parsedValue - meanValue ), 2)
 	}
 
 	standardDevision := math.Sqrt(squared / float64(nValues))
