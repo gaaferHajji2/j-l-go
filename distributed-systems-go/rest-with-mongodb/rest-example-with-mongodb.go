@@ -44,6 +44,11 @@ func GetAllMealsHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, meals)
 }
 
+func UpdateMealHandler(c *gin.Context) {
+	id := c.Params.ByName("id")
+
+}
+
 func main() {
 	router := gin.Default()
 
@@ -52,6 +57,8 @@ func main() {
 	router.POST("/meals", CreateMealHandler)
 
 	router.GET("/meals", GetAllMealsHandler)
+
+	router.PUT("/meals/:id", UpdateMealHandler)
 
 	router.Run()
 }
