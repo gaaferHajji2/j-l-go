@@ -33,12 +33,25 @@ func CreateMealHandler(c *gin.Context) {
 	c.JSON(http.StatusCreated, meal)
 }
 
+func GetAllMealsHandler(c *gin.Context) {
+
+	if len(meals) == 0 {
+		c.JSON(http.StatusOK, gin.H{
+			"msg": "No Data Found",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, meals)
+}
+
 func main() {
 	router := gin.Default()
 
 	meals = make([]Meal, 0)
 
 	router.POST("/meals", CreateMealHandler)
+
+	router.GET("/meals", GetAllMealsHandler)
 
 	router.Run()
 }
