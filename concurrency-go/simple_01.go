@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"runtime"
 	"time"
 )
 
@@ -17,4 +18,8 @@ func main() {
 	}
 
 	time.Sleep(2 * time.Second)
+
+	fmt.Println("Number of CPUs: ", runtime.NumCPU())
+	// if we set this to 0, then nothing will be altered
+	fmt.Println("For go: ", runtime.GOMAXPROCS(0))
 }
