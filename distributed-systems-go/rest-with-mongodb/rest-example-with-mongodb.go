@@ -1,3 +1,18 @@
+// Meals API
+//
+// # Simple App For Meals In go
+//
+// Schemes: http
+// Host: localhost:8080
+// BasePath: /
+// Version: 1.0.0
+//
+// Consumes:
+// - application/json
+//
+// Produces:
+// - application/json
+// swagger: meta
 package main
 
 import (
