@@ -1,18 +1,19 @@
-// Meals API
+// Package main My Simple Meal API
 //
-// # Simple App For Meals In go
+// The purpose of this application is to demonstrate go-swagger
 //
-// Schemes: http
-// Host: localhost:8080
-// BasePath: /
-// Version: 1.0.0
+//	Schemes: http
+//	Host: localhost:8080
+//	BasePath: /
+//	Version: 1.0.0
 //
-// Consumes:
-// - application/json
+//	Consumes:
+//	- application/json
 //
-// Produces:
-// - application/json
-// swagger: meta
+//	Produces:
+//	- application/json
+//
+// swagger:meta
 package main
 
 import (
@@ -24,13 +25,28 @@ import (
 	"github.com/rs/xid"
 )
 
+// Meal represents a user in the system.
+//
+//	swagger:model
 type Meal struct {
-	ID           string    `json:"id"`
-	Name         string    `json:"name"`
-	Tags         []string  `json:"tags"`
-	Ingredients  []string  `json:"ingredients"`
-	Instructions []string  `json:"instructions"`
-	CreatedAt    time.Time `json:"createdAt"`
+	// ID of the Meal
+	//	required: true
+	ID string `json:"id"`
+	// Name of the Meal
+	//	required: true
+	Name string `json:"name"`
+	// Tags of the meal
+	//	required: true
+	Tags []string `json:"tags"`
+	// Ingredients of meal
+	//	required: true
+	Ingredients []string `json:"ingredients"`
+	// Instructions to create meal
+	//	required: true
+	Instructions []string `json:"instructions"`
+	// When we create the record
+	//	required: true
+	CreatedAt time.Time `json:"createdAt"`
 }
 
 var meals []Meal
