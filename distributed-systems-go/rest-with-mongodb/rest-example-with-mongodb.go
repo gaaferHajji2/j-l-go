@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -72,16 +73,52 @@ func UpdateMealHandler(c *gin.Context) {
 	})
 }
 
+func DeleteMealHandler(c *gin.Context) {
+	id := c.Param("id")
+	for i := 0; i < len(meals); i++ {
+		if meals[i].ID == id {
+			meals = append(meals[:i], meals[i+1:]...)
+			c.JSON(http.StatusNoContent, gin.H{
+				"msg": "Meal Deleted successfully",
+			})
+			return
+		}
+	}
+	c.JSON(http.StatusNotFound, gin.H{
+		"err": "No Meal Found",
+	})
+}
+
+func SearchForMealByTag(c *gin.Context) {
+	tag := c.Query("tag")
+	t1 := make([]Meal, 0)
+
+	for i := 0; i < len(meals); i++ {
+		t2 := false
+		for _, t := range meals[i].Tags {
+			if strings.EqualFold(t, tag) {
+				t2 = true
+				break
+			}
+		}
+
+		if t2 {
+			t1 = append(t1, meals[i])
+		}
+	}
+
+	c.JSON(http.StatusOK, t1)
+}
+
 func main() {
 	router := gin.Default()
-
 	meals = make([]Meal, 0)
 
 	router.POST("/meals", CreateMealHandler)
-
 	router.GET("/meals", GetAllMealsHandler)
-
 	router.PUT("/meals/:id", UpdateMealHandler)
+	router.DELETE("/meals/:id", DeleteMealHandler)
+	router.GET("/meals/searchByTag", SearchForMealByTag)
 
 	router.Run()
 }
