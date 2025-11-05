@@ -27,7 +27,7 @@ import (
 
 // Meal represents a user in the system.
 //
-//	swagger:model
+//	swagger:model Meal
 type Meal struct {
 	// ID of the Meal
 	//	required: true
@@ -65,6 +65,16 @@ func CreateMealHandler(c *gin.Context) {
 	c.JSON(http.StatusCreated, meal)
 }
 
+//	swagger:operation GET /meals meals listOfMeals
+//
+// Returns list of meals
+// ---
+//
+//	produces:
+//	- application/json
+//	responses:
+//		'200':
+//			description: list of meals
 func GetAllMealsHandler(c *gin.Context) {
 
 	// if len(meals) == 0 {

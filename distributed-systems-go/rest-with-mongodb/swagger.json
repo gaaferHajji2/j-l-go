@@ -16,5 +16,80 @@
   },
   "host": "localhost:8080",
   "basePath": "/",
-  "paths": {}
+  "paths": {
+    "/meals": {
+      "get": {
+        "description": "Returns list of meals",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "meals"
+        ],
+        "operationId": "listOfMeals",
+        "responses": {
+          "200": {
+            "description": "list of meals"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Meal": {
+      "type": "object",
+      "title": "Meal represents a user in the system.",
+      "required": [
+        "id",
+        "name",
+        "tags",
+        "ingredients",
+        "instructions",
+        "createdAt"
+      ],
+      "properties": {
+        "createdAt": {
+          "description": "When we create the record",
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "CreatedAt"
+        },
+        "id": {
+          "description": "ID of the Meal",
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "ingredients": {
+          "description": "Ingredients of meal",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Ingredients"
+        },
+        "instructions": {
+          "description": "Instructions to create meal",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Instructions"
+        },
+        "name": {
+          "description": "Name of the Meal",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "tags": {
+          "description": "Tags of the meal",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Tags"
+        }
+      },
+      "x-go-package": "jloka/jloka"
+    }
+  }
 }
