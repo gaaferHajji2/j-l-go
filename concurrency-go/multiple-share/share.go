@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"time"
 )
 
 const characters = "abcdefghijklmnopqrstuvwxyz"
@@ -35,8 +36,11 @@ func main() {
 	freq := make([]int, 26)
 	url := "https://example.com"
 	for i := 0; i < 10; i++ {
-		CheckLetters(url, freq)
+		// this will may cause race conditions
+		go CheckLetters(url, freq)
 	}
+
+	time.Sleep(5 * time.Second)
 
 	for t1, t2 := range characters {
 		fmt.Printf("%c is: %d\n", t2, freq[t1])
