@@ -32,13 +32,122 @@
             "description": "list of meals"
           }
         }
+      },
+      "post": {
+        "description": "Create meal",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "meals"
+        ],
+        "operationId": "CreateMealHandler",
+        "parameters": [
+          {
+            "description": "The body of request",
+            "name": "meal",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/meal"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Meal Created Successfully",
+            "schema": {
+              "$ref": "#/definitions/meal"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/meals/searchByTag": {
+      "get": {
+        "description": "Returns list of meals that contains the tag",
+        "tags": [
+          "meals"
+        ],
+        "operationId": "SearchForMealByTag",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "tag of the meal",
+            "name": "tag",
+            "in": "query",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/meals/{id}": {
+      "put": {
+        "description": "Update meal by id if exists only",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "meals"
+        ],
+        "operationId": "UpdateMealById",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "id of the meal",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Meal Updated Successfully"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Meal not found"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete meal by id if exists",
+        "tags": [
+          "meals"
+        ],
+        "operationId": "DeleteMealHandler",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "id of the meal",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The meal deleted successfully"
+          },
+          "404": {
+            "description": "meal deleted successfully"
+          }
+        }
       }
     }
   },
   "definitions": {
-    "Meal": {
+    "meal": {
       "type": "object",
-      "title": "Meal represents a user in the system.",
+      "title": "Meal represents a object in the system.",
       "required": [
         "id",
         "name",
@@ -89,6 +198,7 @@
           "x-go-name": "Tags"
         }
       },
+      "x-go-name": "Meal",
       "x-go-package": "jloka/jloka"
     }
   }

@@ -25,9 +25,9 @@ import (
 	"github.com/rs/xid"
 )
 
-// Meal represents a user in the system.
+// Meal represents a object in the system.
 //
-//	swagger:model Meal
+//	swagger:model meal
 type Meal struct {
 	// ID of the Meal
 	//	required: true
@@ -51,6 +51,28 @@ type Meal struct {
 
 var meals []Meal
 
+// swagger:operation POST /meals meals CreateMealHandler
+// Create meal
+// ---
+//
+//	parameters:
+//	- name: meal
+//	  in: body
+//	  description: The body of request
+//	  required: true
+//	  schema:
+//       "$ref": "#/definitions/meal"
+//	consumes:
+//	- application/json
+//	produces:
+//	- application/json
+//	responses:
+//		'201':
+//			description: Meal Created Successfully
+//			schema:
+//       		"$ref": "#/definitions/meal"
+//		'400':
+//			description: Bad Request
 func CreateMealHandler(c *gin.Context) {
 	var meal Meal
 
@@ -86,6 +108,25 @@ func GetAllMealsHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, meals)
 }
 
+// swagger:operation PUT /meals/{id} meals UpdateMealById
+// Update meal by id if exists only
+// ---
+//
+//	parameters:
+//	- name: id
+//	  in: path
+//	  description: id of the meal
+//	  required: true
+//	  type: string
+//	produces:
+//	- application/json
+//	responses:
+//		'200':
+//			description: Meal Updated Successfully
+//		'400':
+//			description: Bad Request
+//		'404':
+//			description: Meal not found
 func UpdateMealHandler(c *gin.Context) {
 	id := c.Param("id")
 
@@ -114,6 +155,22 @@ func UpdateMealHandler(c *gin.Context) {
 	})
 }
 
+//	swagger:operation DELETE /meals/{id} meals DeleteMealHandler
+// Delete meal by id if exists
+// ---
+// 
+//	parameters:
+//	- name: id
+//	  in: path
+//	  description: id of the meal
+//	  required: true
+//	  type: string
+//	responses:
+//		'204':
+//			description: The meal deleted successfully
+//		'404':
+//			description: meal deleted successfully
+
 func DeleteMealHandler(c *gin.Context) {
 	id := c.Param("id")
 	for i := 0; i < len(meals); i++ {
@@ -130,6 +187,23 @@ func DeleteMealHandler(c *gin.Context) {
 	})
 }
 
+//	swagger:operation GET /meals/searchByTag meals SearchForMealByTag
+//
+// Returns list of meals that contains the tag
+// ---
+//	parameters:
+//	- name: tag
+//	  in: query
+//	  description: tag of the meal
+//	  required: true
+//	  type: string
+
+// produces:
+// - application/json
+// responses:
+//
+//	'200':
+//		description: list of meals that contains the tag
 func SearchForMealByTag(c *gin.Context) {
 	tag := c.Query("tag")
 	t1 := make([]Meal, 0)
