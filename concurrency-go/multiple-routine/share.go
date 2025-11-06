@@ -9,6 +9,9 @@ import (
 func spend(t1 *int) {
 	for i := 0; i < 1000000; i++ {
 		*t1 -= 10
+		// From Doc: Gosched yields the processor, allowing other goroutines to run.
+		// It does not suspend the
+		// current goroutine, so execution resumes automatically.
 		runtime.Gosched()
 	}
 
