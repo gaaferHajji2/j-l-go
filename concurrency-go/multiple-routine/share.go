@@ -35,7 +35,7 @@ func main() {
 	mutex := sync.Mutex{}
 	go save(&t1, &mutex)
 	go spend(&t1, &mutex)
-	time.Sleep(2 * time.Second)
+	time.Sleep(1 * time.Second)
 	mutex.Lock()
 	fmt.Println("Total is: ", t1)
 	mutex.Unlock()
