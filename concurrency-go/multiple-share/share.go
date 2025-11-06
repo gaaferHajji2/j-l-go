@@ -19,7 +19,6 @@ func CheckLetters(url string, freq []int) {
 	if resp.StatusCode != 200 {
 		panic("Error with status: " + resp.Status)
 	}
-
 	body, _ := io.ReadAll(resp.Body)
 	for _, c := range body {
 		t1 := strings.ToLower(string(c))
@@ -28,7 +27,6 @@ func CheckLetters(url string, freq []int) {
 			freq[t1Index] += 1
 		}
 	}
-
 	fmt.Println(url, " completed")
 }
 
@@ -39,9 +37,7 @@ func main() {
 		// this will may cause race conditions
 		go CheckLetters(url, freq)
 	}
-
 	time.Sleep(5 * time.Second)
-
 	for t1, t2 := range characters {
 		fmt.Printf("%c is: %d\n", t2, freq[t1])
 	}
