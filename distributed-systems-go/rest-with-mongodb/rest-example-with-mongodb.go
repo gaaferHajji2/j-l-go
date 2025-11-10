@@ -17,13 +17,24 @@
 package main
 
 import (
+	"context"
+	"log"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/rs/xid"
+
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
+
+var ctx context.Context
+var err error
+var client *mongo.Client
 
 // Meal represents a object in the system.
 //
@@ -55,24 +66,24 @@ var meals []Meal
 // Create meal
 // ---
 //
-//	parameters:
-//	- name: meal
-//	  in: body
-//	  description: The body of request
-//	  required: true
-//	  schema:
-//       "$ref": "#/definitions/meal"
-//	consumes:
-//	- application/json
-//	produces:
-//	- application/json
-//	responses:
-//		'201':
-//			description: Meal Created Successfully
-//			schema:
-//       		"$ref": "#/definitions/meal"
-//		'400':
-//			description: Bad Request
+//		parameters:
+//		- name: meal
+//		  in: body
+//		  description: The body of request
+//		  required: true
+//		  schema:
+//	      "$ref": "#/definitions/meal"
+//		consumes:
+//		- application/json
+//		produces:
+//		- application/json
+//		responses:
+//			'201':
+//				description: Meal Created Successfully
+//				schema:
+//	      		"$ref": "#/definitions/meal"
+//			'400':
+//				description: Bad Request
 func CreateMealHandler(c *gin.Context) {
 	var meal Meal
 
@@ -158,7 +169,7 @@ func UpdateMealHandler(c *gin.Context) {
 //	swagger:operation DELETE /meals/{id} meals DeleteMealHandler
 // Delete meal by id if exists
 // ---
-// 
+//
 //	parameters:
 //	- name: id
 //	  in: path
@@ -225,9 +236,21 @@ func SearchForMealByTag(c *gin.Context) {
 	c.JSON(http.StatusOK, t1)
 }
 
+func initFunc() {
+	ctx = context.Background()
+	client, err = mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("MONGO_URI")))
+
+	if err = client.Ping(context.TODO(), readpref.Primary()); err != nil {
+		log.Fatal("Failed to connect to mongodb", err)
+	}
+
+	log.Println("Successfully connected to mongodb")
+}
+
 func main() {
 	router := gin.Default()
 	meals = make([]Meal, 0)
+	initFunc()
 
 	router.POST("/meals", CreateMealHandler)
 	router.GET("/meals", GetAllMealsHandler)
