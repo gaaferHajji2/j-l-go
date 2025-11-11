@@ -36,6 +36,7 @@ import (
 var ctx context.Context
 var err error
 var client *mongo.Client
+var collection *mongo.Collection
 
 // Meal represents a object in the system.
 //
@@ -60,8 +61,6 @@ type Meal struct {
 	//	required: true
 	CreatedAt time.Time `json:"createdAt" bson:"createdAt"`
 }
-
-var meals []Meal
 
 // swagger:operation POST /meals meals CreateMealHandler
 // Create meal
@@ -94,7 +93,6 @@ func CreateMealHandler(c *gin.Context) {
 		})
 	}
 
-	collection := client.Database(os.Getenv("MONGO_DATABASE")).Collection("recipes")
 	meal.ID = primitive.NewObjectID()
 	meal.CreatedAt = time.Now()
 	_, err := collection.InsertOne(ctx, &meal)
@@ -179,8 +177,6 @@ func UpdateMealHandler(c *gin.Context) {
 		return
 	}
 
-	collection := client.Database(os.Getenv("MONGO_DATABASE")).Collection("recipes")
-
 	new_id, _ := primitive.ObjectIDFromHex(id)
 
 	res, err := collection.UpdateOne(ctx, bson.M{"_id": new_id}, bson.D{{Key: "$set", Value: bson.D{
@@ -221,8 +217,6 @@ func DeleteMealHandler(c *gin.Context) {
 	id := c.Param("id")
 	new_id, _ := primitive.ObjectIDFromHex(id)
 
-	collection := client.Database(os.Getenv("MONGO_DATABASE")).Collection("recipes")
-
 	res, err := collection.DeleteOne(ctx, bson.M{"_id": new_id})
 
 	if err != nil {
@@ -253,7 +247,6 @@ func DeleteMealHandler(c *gin.Context) {
 //		description: list of meals that contains the tag
 func SearchForMealByTag(c *gin.Context) {
 	tag := c.Query("tag")
-	collection := client.Database(os.Getenv("MONGO_DATABASE")).Collection("recipes")
 
 	cur, err := collection.Find(ctx, bson.M{"tags": tag})
 
@@ -273,7 +266,7 @@ func SearchForMealByTag(c *gin.Context) {
 	c.JSON(http.StatusOK, meals)
 }
 
-func initFunc() {
+func init() {
 	ctx = context.Background()
 	client, err = mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("MONGO_URI")))
 
@@ -281,13 +274,13 @@ func initFunc() {
 		log.Fatal("Failed to connect to mongodb", err)
 	}
 
+	collection = client.Database(os.Getenv("MONGO_DATABASE")).Collection("recipes")
+
 	log.Println("Successfully connected to mongodb")
 }
 
 func main() {
 	router := gin.Default()
-	meals = make([]Meal, 0)
-	initFunc()
 
 	router.POST("/meals", CreateMealHandler)
 	router.GET("/meals", GetAllMealsHandler)
