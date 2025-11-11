@@ -27,6 +27,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/rs/xid"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -116,6 +117,27 @@ func GetAllMealsHandler(c *gin.Context) {
 	// 	})
 	// 	return
 	// }
+
+	collection := client.Database(os.Getenv(
+		"MONGO_DATABASE")).Collection("recipes")
+
+	cur, err := collection.Find(ctx, bson.M{})
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	defer cur.Close(ctx)
+
+	meals := make([]Meal, 0)
+
+	for cur.Next(ctx) {
+		var meal Meal
+		cur.Decode(&meal)
+		meals = append(meals, meal)
+	}
+
 	c.JSON(http.StatusOK, meals)
 }
 
