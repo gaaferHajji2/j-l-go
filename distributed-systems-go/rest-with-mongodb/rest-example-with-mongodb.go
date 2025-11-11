@@ -180,22 +180,30 @@ func UpdateMealHandler(c *gin.Context) {
 		return
 	}
 
-	for i := 0; i < len(meals); i++ {
-		if meals[i].ID.Hex() == id {
-			meal.CreatedAt = meals[i].CreatedAt
+	collection := client.Database(os.Getenv("MONGO_DATABASE")).Collection("recipes")
 
-			meals[i] = meal
-			c.JSON(http.StatusOK, meal)
-			return
-		}
+	new_id, _ := primitive.ObjectIDFromHex(id)
+
+	res, err := collection.UpdateOne(ctx, bson.M{"_id": new_id}, bson.D{{Key: "$set", Value: bson.D{
+		{Key: "name", Value: meal.Name},
+		{Key: "instructions", Value: meal.Instructions},
+		{Key: "ingredients", Value: meal.Ingredients},
+		{Key: "tags", Value: meal.Tags},
+	}}})
+
+	if err != nil {
+		fmt.Println("err: ", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"err": err.Error()})
+		return
 	}
 
-	c.JSON(http.StatusNotFound, gin.H{
-		"err": "No Meal Found",
+	c.JSON(http.StatusOK, gin.H{
+		"res": res,
 	})
 }
 
 //	swagger:operation DELETE /meals/{id} meals DeleteMealHandler
+//
 // Delete meal by id if exists
 // ---
 //
@@ -210,7 +218,6 @@ func UpdateMealHandler(c *gin.Context) {
 //			description: The meal deleted successfully
 //		'404':
 //			description: meal deleted successfully
-
 func DeleteMealHandler(c *gin.Context) {
 	id := c.Param("id")
 	for i := 0; i < len(meals); i++ {
