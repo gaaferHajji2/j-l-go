@@ -44,22 +44,22 @@ var client *mongo.Client
 type Meal struct {
 	// ID of the Meal
 	//	required: true
-	ID string `json:"id"`
+	ID primitive.ObjectID `json:"id" bson:"_id"`
 	// Name of the Meal
 	//	required: true
-	Name string `json:"name"`
+	Name string `json:"name" bson:"name"`
 	// Tags of the meal
 	//	required: true
-	Tags []string `json:"tags"`
+	Tags []string `json:"tags" bson:"tags"`
 	// Ingredients of meal
 	//	required: true
-	Ingredients []string `json:"ingredients"`
+	Ingredients []string `json:"ingredients" bson:"ingredients"`
 	// Instructions to create meal
 	//	required: true
-	Instructions []string `json:"instructions"`
+	Instructions []string `json:"instructions" bson:"instructions"`
 	// When we create the record
 	//	required: true
-	CreatedAt time.Time `json:"createdAt"`
+	CreatedAt time.Time `json:"createdAt" bson:"createdAt"`
 }
 
 var meals []Meal
@@ -96,7 +96,7 @@ func CreateMealHandler(c *gin.Context) {
 	}
 
 	collection := client.Database(os.Getenv("MONGO_DATABASE")).Collection("recipes")
-	meal.ID = primitive.NewObjectID().Hex()
+	meal.ID = primitive.NewObjectID()
 	meal.CreatedAt = time.Now()
 	_, err := collection.InsertOne(ctx, &meal)
 	if err != nil {
@@ -181,9 +181,8 @@ func UpdateMealHandler(c *gin.Context) {
 	}
 
 	for i := 0; i < len(meals); i++ {
-		if meals[i].ID == id {
+		if meals[i].ID.Hex() == id {
 			meal.CreatedAt = meals[i].CreatedAt
-			meal.ID = id
 
 			meals[i] = meal
 			c.JSON(http.StatusOK, meal)
@@ -215,7 +214,7 @@ func UpdateMealHandler(c *gin.Context) {
 func DeleteMealHandler(c *gin.Context) {
 	id := c.Param("id")
 	for i := 0; i < len(meals); i++ {
-		if meals[i].ID == id {
+		if meals[i].ID.Hex() == id {
 			meals = append(meals[:i], meals[i+1:]...)
 			c.JSON(http.StatusNoContent, gin.H{
 				"msg": "Meal Deleted successfully",
