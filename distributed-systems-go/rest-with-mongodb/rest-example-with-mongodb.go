@@ -18,6 +18,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -25,9 +26,9 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/rs/xid"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -93,9 +94,16 @@ func CreateMealHandler(c *gin.Context) {
 			"err": err.Error(),
 		})
 	}
-	meal.ID = xid.New().String()
+
+	collection := client.Database(os.Getenv("MONGO_DATABASE")).Collection("recipes")
+	meal.ID = primitive.NewObjectID().Hex()
 	meal.CreatedAt = time.Now()
-	meals = append(meals, meal)
+	_, err := collection.InsertOne(ctx, &meal)
+	if err != nil {
+		fmt.Println(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 	c.JSON(http.StatusCreated, meal)
 }
 
@@ -110,7 +118,6 @@ func CreateMealHandler(c *gin.Context) {
 //		'200':
 //			description: list of meals
 func GetAllMealsHandler(c *gin.Context) {
-
 	// if len(meals) == 0 {
 	// 	c.JSON(http.StatusOK, gin.H{
 	// 		"msg": "No Data Found",
@@ -139,6 +146,7 @@ func GetAllMealsHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, meals)
+
 }
 
 // swagger:operation PUT /meals/{id} meals UpdateMealById
