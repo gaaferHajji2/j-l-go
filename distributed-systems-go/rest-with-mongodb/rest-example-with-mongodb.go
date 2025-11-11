@@ -22,7 +22,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -220,18 +219,19 @@ func UpdateMealHandler(c *gin.Context) {
 //			description: meal deleted successfully
 func DeleteMealHandler(c *gin.Context) {
 	id := c.Param("id")
-	for i := 0; i < len(meals); i++ {
-		if meals[i].ID.Hex() == id {
-			meals = append(meals[:i], meals[i+1:]...)
-			c.JSON(http.StatusNoContent, gin.H{
-				"msg": "Meal Deleted successfully",
-			})
-			return
-		}
+	new_id, _ := primitive.ObjectIDFromHex(id)
+
+	collection := client.Database(os.Getenv("MONGO_DATABASE")).Collection("recipes")
+
+	res, err := collection.DeleteOne(ctx, bson.M{"_id": new_id})
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"err": err.Error()})
+		return
 	}
-	c.JSON(http.StatusNotFound, gin.H{
-		"err": "No Meal Found",
-	})
+
+	fmt.Println("res: ", res)
+	c.JSON(http.StatusNoContent, gin.H{})
 }
 
 //	swagger:operation GET /meals/searchByTag meals SearchForMealByTag
@@ -253,23 +253,24 @@ func DeleteMealHandler(c *gin.Context) {
 //		description: list of meals that contains the tag
 func SearchForMealByTag(c *gin.Context) {
 	tag := c.Query("tag")
-	t1 := make([]Meal, 0)
+	collection := client.Database(os.Getenv("MONGO_DATABASE")).Collection("recipes")
 
-	for i := 0; i < len(meals); i++ {
-		t2 := false
-		for _, t := range meals[i].Tags {
-			if strings.EqualFold(t, tag) {
-				t2 = true
-				break
-			}
-		}
+	cur, err := collection.Find(ctx, bson.M{"tags": tag})
 
-		if t2 {
-			t1 = append(t1, meals[i])
-		}
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"err": err.Error()})
+		return
 	}
 
-	c.JSON(http.StatusOK, t1)
+	meals := make([]Meal, 0)
+
+	for cur.Next(ctx) {
+		var meal Meal
+		cur.Decode(&meal)
+		meals = append(meals, meal)
+	}
+
+	c.JSON(http.StatusOK, meals)
 }
 
 func initFunc() {
