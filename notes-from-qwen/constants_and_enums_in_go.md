@@ -1,3 +1,5 @@
+### From qwen.ai
+
 In Go (Golang), **constants** are declared using the `const` keyword and are evaluated at **compile time**, not runtime. They can hold values of **boolean, numeric, string, or rune** types.
 
 Your code demonstrates several important Go features related to constants, especially **`iota`**, which is a powerful tool for generating sequences of constants—commonly used for enums or bit flags.
