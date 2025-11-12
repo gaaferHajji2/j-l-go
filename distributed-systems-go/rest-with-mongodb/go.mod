@@ -1,4 +1,4 @@
-module jloka/jloka
+module github.com/gaaferHajji2/j-l-go/distributed-systems-go/rest-with-mongodb
 
 go 1.24.4
 
