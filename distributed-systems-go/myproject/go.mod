@@ -1,4 +1,4 @@
-module github.com/gaaferHajji2/j-l-go/distributed-systems-go/rest-with-mongodb
+module myproject
 
 go 1.24.4
 
