@@ -31,6 +31,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
+
+	"myproject/models/meal"
 )
 
 var ctx context.Context
@@ -61,7 +63,7 @@ var collection *mongo.Collection
 //			'400':
 //				description: Bad Request
 func CreateMealHandler(c *gin.Context) {
-	var meal Meal
+	var meal meal.Meal
 
 	if err := c.ShouldBindJSON(&meal); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -110,10 +112,10 @@ func GetAllMealsHandler(c *gin.Context) {
 
 	defer cur.Close(ctx)
 
-	meals := make([]Meal, 0)
+	meals := make([]meal.Meal, 0)
 
 	for cur.Next(ctx) {
-		var meal Meal
+		var meal meal.Meal
 		cur.Decode(&meal)
 		meals = append(meals, meal)
 	}
@@ -144,7 +146,7 @@ func GetAllMealsHandler(c *gin.Context) {
 func UpdateMealHandler(c *gin.Context) {
 	id := c.Param("id")
 
-	var meal Meal
+	var meal meal.Meal
 
 	if err := c.ShouldBindJSON(&meal); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -231,10 +233,10 @@ func SearchForMealByTag(c *gin.Context) {
 		return
 	}
 
-	meals := make([]Meal, 0)
+	meals := make([]meal.Meal, 0)
 
 	for cur.Next(ctx) {
-		var meal Meal
+		var meal meal.Meal
 		cur.Decode(&meal)
 		meals = append(meals, meal)
 	}
