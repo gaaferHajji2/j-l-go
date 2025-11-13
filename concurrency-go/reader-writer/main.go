@@ -21,9 +21,7 @@ func writer(data *[]string, mutex *sync.RWMutex) {
 func getAllData(data *[]string) []string {
 	copyData := make([]string, 0, len(*data))
 
-	for _, d := range *data {
-		copyData = append(copyData, d)
-	}
+	copyData = append(copyData, *data...)
 	return copyData
 }
 
