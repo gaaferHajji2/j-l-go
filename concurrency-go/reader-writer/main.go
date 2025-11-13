@@ -20,7 +20,6 @@ func writer(data *[]string, mutex *sync.RWMutex) {
 
 func getAllData(data *[]string) []string {
 	copyData := make([]string, 0, len(*data))
-
 	copyData = append(copyData, *data...)
 	return copyData
 }
@@ -39,7 +38,6 @@ func main() {
 	data := make([]string, 0, 10000)
 	mutex := sync.RWMutex{}
 	go writer(&data, &mutex)
-
 	start := time.Now()
 	for i := 0; i < 2000; i++ {
 		go reader(&data, &mutex, start)
