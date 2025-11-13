@@ -31,7 +31,7 @@ func CheckLetters(url string, freq []int, mutex *sync.Mutex) {
 		}
 	}
 	mutex.Unlock()
-	fmt.Println(url, " completed")
+	fmt.Println(url, " completed: ", time.Now().Format("15:04:05"))
 }
 
 func main() {
