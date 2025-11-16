@@ -18,6 +18,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 
@@ -26,6 +27,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
+
+	"github.com/redis/go-redis/v9"
 
 	services "myproject/services"
 )
@@ -44,7 +47,17 @@ func init() {
 	}
 	collection = client.Database(os.Getenv("MONGO_DATABASE")).Collection("recipes")
 	log.Println("Successfully connected to mongodb")
-	mealsHandler = services.NewMealHandler(ctx, collection)
+
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "",
+		DB:       0,
+	})
+
+	mealsHandler = services.NewMealHandler(ctx, collection, redisClient)
+
+	status := redisClient.Ping(ctx)
+	fmt.Println("The status is: ", status)
 }
 
 func main() {
