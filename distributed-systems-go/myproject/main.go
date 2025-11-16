@@ -39,15 +39,11 @@ var mealsHandler *services.MealHandler
 func init() {
 	ctx = context.Background()
 	client, err = mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("MONGO_URI")))
-
 	if err = client.Ping(context.TODO(), readpref.Primary()); err != nil {
 		log.Fatal("Failed to connect to mongodb", err)
 	}
-
 	collection = client.Database(os.Getenv("MONGO_DATABASE")).Collection("recipes")
-
 	log.Println("Successfully connected to mongodb")
-
 	mealsHandler = services.NewMealHandler(ctx, collection)
 }
 
