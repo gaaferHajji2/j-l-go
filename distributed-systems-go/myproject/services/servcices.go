@@ -168,6 +168,8 @@ func (handler *MealHandler) UpdateMealHandler(c *gin.Context) {
 		return
 	}
 
+	handler.redisClient.Del(handler.ctx, "recipes")
+
 	c.JSON(http.StatusOK, gin.H{
 		"res": res,
 	})
