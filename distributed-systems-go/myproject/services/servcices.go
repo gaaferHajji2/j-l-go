@@ -2,7 +2,9 @@ package services
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"log"
 	"myproject/models"
 	"net/http"
 	"time"
@@ -67,6 +69,7 @@ func (handler *MealHandler) CreateMealHandler(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+	handler.redisClient.Del(handler.ctx, "recipes")
 	c.JSON(http.StatusCreated, meal)
 }
 
@@ -81,24 +84,41 @@ func (handler *MealHandler) CreateMealHandler(c *gin.Context) {
 //		'200':
 //			description: list of meals
 func (handler *MealHandler) GetAllMealsHandler(c *gin.Context) {
-	cur, err := handler.collection.Find(handler.ctx, bson.M{})
 
-	if err != nil {
+	cachedData, err := handler.redisClient.Get(handler.ctx, "recipes").Result()
+
+	if err == redis.Nil {
+		log.Printf("Request data from mongodb and then cached it")
+		cur, err := handler.collection.Find(handler.ctx, bson.M{})
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		defer cur.Close(handler.ctx)
+
+		meals := make([]models.Meal, 0)
+
+		for cur.Next(handler.ctx) {
+			var meal models.Meal
+			cur.Decode(&meal)
+			meals = append(meals, meal)
+		}
+
+		data, _ := json.Marshal(meals)
+		handler.redisClient.Set(handler.ctx, "recipes", string(data), 0)
+
+		c.JSON(http.StatusOK, meals)
+	} else if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
+	} else {
+		log.Printf("Getting data from redis")
+		meals := make([]models.Meal, 0)
+		json.Unmarshal([]byte(cachedData), &meals)
+		c.JSON(http.StatusOK, meals)
 	}
-
-	defer cur.Close(handler.ctx)
-
-	meals := make([]models.Meal, 0)
-
-	for cur.Next(handler.ctx) {
-		var meal models.Meal
-		cur.Decode(&meal)
-		meals = append(meals, meal)
-	}
-
-	c.JSON(http.StatusOK, meals)
 
 }
 
