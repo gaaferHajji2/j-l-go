@@ -60,13 +60,29 @@ func init() {
 	fmt.Println("The status is: ", status)
 }
 
+func AuthMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if c.GetHeader("X-API-KEY") != os.Getenv("X_API_KEY") {
+			c.AbortWithStatus(401)
+		}
+		c.Next()
+	}
+}
+
 func main() {
 	router := gin.Default()
 
-	router.POST("/meals", mealsHandler.CreateMealHandler)
+	authMealsGroup := router.Group("/")
+
+	authMealsGroup.Use(AuthMiddleware())
+	{
+		authMealsGroup.POST("/meals", mealsHandler.CreateMealHandler)
+		authMealsGroup.PUT("/meals/:id", mealsHandler.UpdateMealHandler)
+		authMealsGroup.DELETE("/meals/:id", mealsHandler.DeleteMealHandler)
+	}
+
 	router.GET("/meals", mealsHandler.GetAllMealsHandler)
-	router.PUT("/meals/:id", mealsHandler.UpdateMealHandler)
-	router.DELETE("/meals/:id", mealsHandler.DeleteMealHandler)
+
 	router.GET("/meals/searchByTag", mealsHandler.SearchForMealByTag)
 
 	router.Run()

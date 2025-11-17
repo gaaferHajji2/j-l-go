@@ -99,16 +99,13 @@ func (handler *MealHandler) GetAllMealsHandler(c *gin.Context) {
 		defer cur.Close(handler.ctx)
 
 		meals := make([]models.Meal, 0)
-
 		for cur.Next(handler.ctx) {
 			var meal models.Meal
 			cur.Decode(&meal)
 			meals = append(meals, meal)
 		}
-
 		data, _ := json.Marshal(meals)
 		handler.redisClient.Set(handler.ctx, "recipes", string(data), 0)
-
 		c.JSON(http.StatusOK, meals)
 	} else if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -119,7 +116,6 @@ func (handler *MealHandler) GetAllMealsHandler(c *gin.Context) {
 		json.Unmarshal([]byte(cachedData), &meals)
 		c.JSON(http.StatusOK, meals)
 	}
-
 }
 
 // swagger:operation PUT /meals/{id} meals UpdateMealById
