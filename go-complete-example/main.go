@@ -113,3 +113,25 @@ func demonstrateControlStructures() {
 		fmt.Println("Good evening")
 	}
 }
+
+func main() {
+	fmt.Println("🚀 GO LANG CORE FEATURES COMPLETE DEMO")
+	fmt.Println("=====================================")
+
+	// =====================================================
+	// 2. INTEGERS, FLOATS, STRINGS, CHARS (RUNES)
+	// =====================================================
+	fmt.Println("\n=== 2. BASIC DATA TYPES ===")
+	var integer int = 42
+	var float32Val float32 = 3.14159
+	var float64Val float64 = 2.718281828459045 // double precision
+	var text string = "Hello, GoLang! 🌟"
+	var character rune = '🔥' // Go's "char" is rune (Unicode code point)
+
+	fmt.Printf("Integer: %d\n", integer)
+	fmt.Printf("Float32: %.5f\n", float32Val)
+	fmt.Printf("Float64 (double): %.15f\n", float64Val)
+	fmt.Printf("String: %s\n", text)
+	fmt.Printf("Rune/Char: %c (Unicode: %U)\n", character, character)
+
+}
