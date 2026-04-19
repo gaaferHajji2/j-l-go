@@ -1,5 +1,7 @@
+package main
+
 import (
-	"encoding/json"
+	"fmt"
 )
 
 // =====================================================
@@ -47,4 +49,67 @@ type Robot struct {
 
 func (r Robot) Speak() string {
 	return "Beep boop! I am " + r.Model + " (a robot)"
+}
+
+// =====================================================
+// 7. CONTROL STRUCTURES DEMO FUNCTION
+// =====================================================
+func demonstrateControlStructures() {
+	fmt.Println("\n=== 7. CONTROL STRUCTURES DEMO ===")
+
+	// if / else if / else
+	score := 85
+	if score >= 90 {
+		fmt.Println("Grade: A")
+	} else if score >= 80 {
+		fmt.Println("Grade: B")
+	} else if score >= 70 {
+		fmt.Println("Grade: C")
+	} else {
+		fmt.Println("Grade: F")
+	}
+
+	// for loop (classic C-style)
+	fmt.Print("For loop (0 to 4): ")
+	for i := 0; i < 5; i++ {
+		fmt.Printf("%d ", i)
+	}
+	fmt.Println()
+
+	// for range over slice
+	fruits := []string{"apple", "banana", "cherry"}
+	fmt.Println("For range over slice:")
+	for index, fruit := range fruits {
+		fmt.Printf("  Index %d: %s\n", index, fruit)
+	}
+
+	// for range over map
+	colors := map[string]string{"red": "#FF0000", "green": "#00FF00"}
+	fmt.Println("For range over map:")
+	for key, value := range colors {
+		fmt.Printf("  %s -> %s\n", key, value)
+	}
+
+	// switch statement
+	day := 3
+	switch day {
+	case 1:
+		fmt.Println("Monday")
+	case 2:
+		fmt.Println("Tuesday")
+	case 3:
+		fmt.Println("Wednesday")
+	default:
+		fmt.Println("Other day")
+	}
+
+	// switch with initialization and expression
+	switch hour := 14; {
+	case hour < 12:
+		fmt.Println("Good morning")
+	case hour < 17:
+		fmt.Println("Good afternoon")
+	default:
+		fmt.Println("Good evening")
+	}
 }
