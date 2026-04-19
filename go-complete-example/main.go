@@ -10,3 +10,18 @@ type User struct {
 	Name string `json:"name"`
 	Age  int    `json:"age"`
 }
+
+// =====================================================
+// 6. GENERICS - Custom numeric constraint
+// =====================================================
+type Numeric interface {
+	int | float64
+}
+
+func Sum[T Numeric](numbers ...T) T {
+	var total T
+	for _, n := range numbers {
+		total += n
+	}
+	return total
+}
