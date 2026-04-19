@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"os"
 )
 
 // =====================================================
@@ -160,5 +162,36 @@ func main() {
 	}
 	fmt.Printf("Struct: %+v\n", user)
 	fmt.Printf("Struct field access: Name = %s, Age = %d\n", user.Name, user.Age)
+
+	// =====================================================
+	// 4. WRITE JSON OBJECT TO FILE
+	// =====================================================
+	fmt.Println("\n=== 4. WRITING JSON TO FILE ===")
+
+	users := []User{
+		{ID: 1, Name: "Alice", Age: 28},
+		{ID: 2, Name: "Bob", Age: 35},
+		{ID: 3, Name: "Charlie", Age: 22},
+	}
+
+	// Create file
+	file, err := os.Create("users.json")
+	if err != nil {
+		fmt.Printf("❌ Error creating file: %v\n", err)
+		return
+	}
+	// defer will close the file automatically when main ends
+	defer file.Close()
+
+	// Write pretty JSON
+	encoder := json.NewEncoder(file)
+	encoder.SetIndent("", "  ")
+	if err := encoder.Encode(users); err != nil {
+		fmt.Printf("❌ Error writing JSON: %v\n", err)
+		return
+	}
+
+	fmt.Println("✅ JSON written successfully to users.json")
+	fmt.Println("   (Open the file to see the array of objects)")
 
 }
