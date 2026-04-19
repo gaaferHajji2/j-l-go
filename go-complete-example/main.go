@@ -268,4 +268,14 @@ func main() {
 		fmt.Println("   →", s.Speak())
 	}
 
+	// =====================================================
+	// 7. CONTROL STRUCTURES (already shown in dedicated function)
+	// =====================================================
+	demonstrateControlStructures()
+
+	fmt.Println("\n🎉 DEMO COMPLETE!")
+	fmt.Println("✅ Check the created file: users.json")
+	fmt.Println("✅ Run 'go run main.go' again anytime to see everything in action.")
+	fmt.Println("GoLang features demonstrated: project init, types, collections, JSON I/O,")
+	fmt.Println("concurrency + context + defer, generics, polymorphism, and all control structures.")
 }
