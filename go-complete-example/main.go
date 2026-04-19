@@ -1,9 +1,12 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"os"
+	"sync"
+	"time"
 )
 
 // =====================================================
@@ -193,5 +196,54 @@ func main() {
 
 	fmt.Println("✅ JSON written successfully to users.json")
 	fmt.Println("   (Open the file to see the array of objects)")
+
+	// =====================================================
+	// 5. CONCURRENCY (GOROUTINES), CONTEXT, DEFER
+	// =====================================================
+	fmt.Println("\n=== 5. CONCURRENCY, CONTEXT & DEFER ===")
+
+	var wg sync.WaitGroup
+	// Create a context with 2-second timeout
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	// defer cancel to release resources automatically
+	defer cancel()
+
+	// Example of defer (will run at the very end of main)
+	defer fmt.Println("🧹 Main function cleanup via defer completed!")
+
+	wg.Add(3) // 3 tasks
+
+	// Goroutine 1 - simple task
+	go func() {
+		defer wg.Done()
+		fmt.Println("🔄 Goroutine 1: Starting heavy calculation...")
+		time.Sleep(500 * time.Millisecond) // simulate work
+		fmt.Println("✅ Goroutine 1: Finished!")
+	}()
+
+	// Goroutine 2 - uses context for cancellation
+	go func() {
+		defer wg.Done()
+		fmt.Println("🔄 Goroutine 2: Waiting for context or timeout...")
+		select {
+		case <-ctx.Done():
+			fmt.Println("⏹️  Goroutine 2: Cancelled by context timeout!")
+		case <-time.After(3 * time.Second):
+			fmt.Println("✅ Goroutine 2: Completed normally")
+		}
+	}()
+
+	// Goroutine 3 - demonstrates defer inside goroutine
+	go func() {
+		defer wg.Done()
+		defer fmt.Println("🧹 Goroutine 3: Internal defer cleanup executed!")
+		fmt.Println("🔄 Goroutine 3: Doing file-like work...")
+		time.Sleep(300 * time.Millisecond)
+		fmt.Println("✅ Goroutine 3: Work done!")
+	}()
+
+	fmt.Println("🚀 Launched 3 goroutines concurrently...")
+	wg.Wait() // wait for all goroutines
+	fmt.Println("✅ All concurrent tasks finished!")
 
 }
