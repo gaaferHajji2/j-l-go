@@ -25,3 +25,26 @@ func Sum[T Numeric](numbers ...T) T {
 	}
 	return total
 }
+
+// =====================================================
+// 6. POLYMORPHISM - Interface + multiple implementations
+// =====================================================
+type Speaker interface {
+	Speak() string
+}
+
+type Person struct {
+	Name string
+}
+
+func (p Person) Speak() string {
+	return "Hi, I'm " + p.Name + " (a person)"
+}
+
+type Robot struct {
+	Model string
+}
+
+func (r Robot) Speak() string {
+	return "Beep boop! I am " + r.Model + " (a robot)"
+}
