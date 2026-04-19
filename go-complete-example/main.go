@@ -246,4 +246,26 @@ func main() {
 	wg.Wait() // wait for all goroutines
 	fmt.Println("✅ All concurrent tasks finished!")
 
+	// =====================================================
+	// 6. GENERICS + POLYMORPHISM
+	// =====================================================
+	fmt.Println("\n=== 6. GENERICS & POLYMORPHISM ===")
+
+	// Generics in action
+	sumInts := Sum(10, 20, 30, 40)
+	sumFloats := Sum(1.1, 2.2, 3.3, 4.4)
+	fmt.Printf("Generic Sum[int]: %d\n", sumInts)
+	fmt.Printf("Generic Sum[float64]: %.2f\n", sumFloats)
+
+	// Polymorphism via interface (same code works for different types)
+	speakers := []Speaker{
+		Person{Name: "Alice"},
+		Robot{Model: "X-3000"},
+	}
+
+	fmt.Println("Polymorphic calls (interfaces):")
+	for _, s := range speakers {
+		fmt.Println("   →", s.Speak())
+	}
+
 }
