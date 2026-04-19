@@ -134,4 +134,31 @@ func main() {
 	fmt.Printf("String: %s\n", text)
 	fmt.Printf("Rune/Char: %c (Unicode: %U)\n", character, character)
 
+	// =====================================================
+	// 3. ARRAYS, SLICES, STRUCTS + INDEX ACCESS
+	// =====================================================
+	fmt.Println("\n=== 3. ARRAYS, SLICES, STRUCTS ===")
+
+	// Fixed-size array
+	array := [5]int{10, 20, 30, 40, 50}
+	fmt.Printf("Array (fixed size): %v\n", array)
+	fmt.Printf("Array element at index 2: %d\n", array[2])
+	fmt.Printf("Array length: %d\n", len(array))
+
+	// Dynamic slice
+	slice := []string{"Go", "is", "fast", "and", "simple"}
+	slice = append(slice, "and concurrent!")
+	fmt.Printf("Slice (dynamic): %v\n", slice)
+	fmt.Printf("Slice element at index 0: %s\n", slice[0])
+	fmt.Printf("Slice length: %d, Capacity: %d\n", len(slice), cap(slice))
+
+	// Struct
+	user := User{
+		ID:   1,
+		Name: "Alice",
+		Age:  28,
+	}
+	fmt.Printf("Struct: %+v\n", user)
+	fmt.Printf("Struct field access: Name = %s, Age = %d\n", user.Name, user.Age)
+
 }
