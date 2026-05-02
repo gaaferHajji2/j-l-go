@@ -42,5 +42,25 @@ func main() {
 		})
 	}
 
+	r2 := r.Group("/profile")
+	{
+		r2.GET("/image/:id", getImageById)
+		r2.GET("/:username", getProfileByUsername)
+	}
+
 	r.Run(":8001")
+}
+
+func getImageById(c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, gin.H{
+		"id":  c.Params.ByName("id"),
+		"msg": "Image OK",
+	})
+}
+
+func getProfileByUsername(c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, gin.H{
+		"username": c.Param("username"),
+		"msg":      "Profile Ok",
+	})
 }
