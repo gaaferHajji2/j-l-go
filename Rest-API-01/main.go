@@ -54,6 +54,7 @@ func main() {
 
 func getImageById(c *gin.Context) {
 	id, err := strconv.Atoi(c.Params.ByName("id"))
+	// id, err = strconv.ParseInt(id, 10, 0)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"msg": "Invalid value for id: " + err.Error(),
