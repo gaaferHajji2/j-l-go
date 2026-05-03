@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -52,8 +53,15 @@ func main() {
 }
 
 func getImageById(c *gin.Context) {
+	id, err := strconv.Atoi(c.Params.ByName("id"))
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"msg": "Invalid value for id: " + err.Error(),
+		})
+		return
+	}
 	c.IndentedJSON(http.StatusOK, gin.H{
-		"id":  c.Params.ByName("id"),
+		"id":  id,
 		"msg": "Image OK",
 	})
 }
