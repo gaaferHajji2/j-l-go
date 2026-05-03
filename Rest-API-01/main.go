@@ -7,6 +7,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type Product struct {
+	Id    int     `json:"id" binding:"required"`
+	Name  string  `json:"name" binding:"required"`
+	Stock int     `json:"stock"`
+	Price float32 `json:"price" binding:"required"`
+}
+
 func main() {
 	r := gin.Default()
 
@@ -50,7 +57,32 @@ func main() {
 		r2.GET("/", showData)
 	}
 
+	r.POST("/handleProduct", handleProduct)
+	r.POST("/handleProducts", handleProducts)
+
 	r.Run(":8001")
+}
+
+func handleProduct(c *gin.Context) {
+	var product Product
+	if err := c.BindJSON(&product); err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"msg": "Invalid JSON: " + err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, product)
+}
+
+func handleProducts(c *gin.Context) {
+	var products []Product
+	if err := c.BindJSON(&products); err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"msg": "Invalid JSON: " + err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, products)
 }
 
 func getImageById(c *gin.Context) {
@@ -77,8 +109,9 @@ func getProfileByUsername(c *gin.Context) {
 
 func showData(c *gin.Context) {
 	// http://localhost:8001/profile/?id=2&jobs[0]=IT&jobs=developer&jobs=designer&jobs=manager
-	// &data[id]=100&data[name]=JLoka&data[type]=Employee
+	// &data[id]=100&data[name]=JLoka&data[type]=Employee&age=26
 	c.JSON(http.StatusOK, gin.H{
+		"age":  c.DefaultQuery("age", "10"),
 		"id":   c.Query("id"),
 		"jobs": c.QueryArray("jobs"),
 		"data": c.QueryMap("data"),
