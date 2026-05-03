@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// When we don't send stock data, the default value is 0
 type Product struct {
 	Id    int     `json:"id" binding:"required"`
 	Name  string  `json:"name" binding:"required"`
