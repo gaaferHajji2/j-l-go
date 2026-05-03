@@ -67,7 +67,7 @@ func main() {
 func handleProduct(c *gin.Context) {
 	var product Product
 	if err := c.BindJSON(&product); err != nil {
-		c.JSON(http.StatusOK, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"msg": "Invalid JSON: " + err.Error(),
 		})
 		return
