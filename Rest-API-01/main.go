@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -23,8 +24,7 @@ func main() {
 	err := godotenv.Load()
 
 	if err != nil {
-		fmt.Println("Error in reading env file")
-		os.Exit(1)
+		log.Fatalf("Error in reading env file")
 	}
 
 	r := gin.Default()
