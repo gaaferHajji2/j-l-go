@@ -1,10 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 // When we don't send stock data, the default value is 0
@@ -16,6 +19,14 @@ type Product struct {
 }
 
 func main() {
+
+	err := godotenv.Load()
+
+	if err != nil {
+		fmt.Println("Error in reading env file")
+		os.Exit(1)
+	}
+
 	r := gin.Default()
 
 	r.GET("/hello", func(c *gin.Context) {
@@ -61,7 +72,10 @@ func main() {
 	r.POST("/handleProduct", handleProduct)
 	r.POST("/handleProducts", handleProducts)
 
-	r.Run(":8001")
+	fmt.Println("The port is: ", os.Getenv("PORT"))
+	fmt.Println("The host is: ", os.Getenv("HOST"))
+
+	r.Run(":" + os.Getenv("PORT"))
 }
 
 func handleProduct(c *gin.Context) {
