@@ -76,7 +76,7 @@ func main() {
 	r3 := r.Group("/calculator")
 	{
 		r3.POST("/add", calculator.Add)
-		r3.POST("/substract", calculator.Subtract)
+		r3.POST("/subtract", calculator.Subtract)
 		r3.POST("/multiply", calculator.Multiply)
 		r3.POST("/divide", calculator.Divide)
 	}
