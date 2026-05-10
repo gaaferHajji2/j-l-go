@@ -9,6 +9,7 @@ import (
 type Numeric struct {
 	Num1 float64 `json:"num1" binding:"required"`
 	Num2 float64 `json:"num2" binding:"required"`
+	Res  float64 `json:"res"`
 }
 
 func Add(c *gin.Context) {
@@ -19,10 +20,9 @@ func Add(c *gin.Context) {
 		})
 		return
 	}
+	body.Res = body.Num1 + body.Num2
 
-	c.JSON(http.StatusOK, gin.H{
-		"result is: ": body.Num1 + body.Num2,
-	})
+	c.JSON(http.StatusOK, body)
 }
 
 func Subtract(c *gin.Context) {
@@ -33,10 +33,9 @@ func Subtract(c *gin.Context) {
 		})
 		return
 	}
+	body.Res = body.Num1 - body.Num2
 
-	c.JSON(http.StatusOK, gin.H{
-		"result is: ": body.Num1 - body.Num2,
-	})
+	c.JSON(http.StatusOK, body)
 }
 
 func Multiply(c *gin.Context) {
@@ -47,10 +46,9 @@ func Multiply(c *gin.Context) {
 		})
 		return
 	}
+	body.Res = body.Num1 * body.Num2
 
-	c.JSON(http.StatusOK, gin.H{
-		"result is: ": body.Num1 * body.Num2,
-	})
+	c.JSON(http.StatusOK, body)
 }
 
 func Divide(c *gin.Context) {
@@ -62,7 +60,7 @@ func Divide(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"result is: ": body.Num1 / body.Num2,
-	})
+	body.Res = body.Num1 / body.Num2
+
+	c.JSON(http.StatusOK, body)
 }
