@@ -37,3 +37,17 @@ func UpdateProductById(products *[]Product, newProduct *Product) (product Produc
 	}
 	return Product{}
 }
+
+// Delete The Product By Id
+func DeleteProductById(products *[]Product, Id int) (product Product) {
+	for index, item := range *products {
+		if item.Id == Id {
+			n := len(*products)
+			deletedProduct := item
+			(*products)[index] = (*products)[n-1]
+			*products = (*products)[:n-1]
+			return deletedProduct
+		}
+	}
+	return Product{}
+}
