@@ -8,10 +8,9 @@ type Product struct {
 }
 
 // Create Product
-func (r *Product) CreateProduct(products *[]Product, product *Product) (result *[]Product, err error) {
-	*products = append(*products, *product)
-
-	return products, nil
+func (r *Product) CreateProduct(products *[]Product) (err error) {
+	*products = append(*products, *r)
+	return nil
 }
 
 // Get the Product By Id
