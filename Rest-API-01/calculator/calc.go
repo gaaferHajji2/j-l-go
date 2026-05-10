@@ -17,6 +17,7 @@ func Add(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"msg": "Invalid Request",
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
@@ -30,6 +31,7 @@ func Subtract(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"msg": "Invalid Request",
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
@@ -43,6 +45,7 @@ func Multiply(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"msg": "Invalid Request",
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
@@ -56,6 +59,7 @@ func Divide(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"msg": "Invalid Request",
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
