@@ -8,16 +8,16 @@ type Product struct {
 }
 
 // Create Product
-func CreateProduct(products *[]Product, product *Product) (result *[]Product, err error) {
+func (r *Product) CreateProduct(products *[]Product, product *Product) (result *[]Product, err error) {
 	*products = append(*products, *product)
 
 	return products, nil
 }
 
 // Get the Product By Id
-func GetProductById(products *[]Product, id int) (product Product) {
+func (r *Product) GetProductById(products *[]Product) (product Product) {
 	for _, item := range *products {
-		if item.Id == id {
+		if item.Id == r.Id {
 			return item
 		}
 	}
@@ -25,12 +25,12 @@ func GetProductById(products *[]Product, id int) (product Product) {
 }
 
 // Update the Product By Id
-func UpdateProductById(products *[]Product, newProduct *Product) (product Product) {
+func (r *Product) UpdateProductById(products *[]Product) (product Product) {
 	for index, item := range *products {
-		if item.Id == (*newProduct).Id {
-			(*products)[index].Name = (*newProduct).Name
-			(*products)[index].Price = (*newProduct).Price
-			(*products)[index].Stock = (*newProduct).Stock
+		if item.Id == (*r).Id {
+			(*products)[index].Name = (*r).Name
+			(*products)[index].Price = (*r).Price
+			(*products)[index].Stock = (*r).Stock
 
 			return (*products)[index]
 		}
@@ -39,9 +39,9 @@ func UpdateProductById(products *[]Product, newProduct *Product) (product Produc
 }
 
 // Delete The Product By Id
-func DeleteProductById(products *[]Product, Id int) (product Product) {
+func (r *Product) DeleteProductById(products *[]Product) (product Product) {
 	for index, item := range *products {
-		if item.Id == Id {
+		if item.Id == (*r).Id {
 			n := len(*products)
 			deletedProduct := item
 			(*products)[index] = (*products)[n-1]
