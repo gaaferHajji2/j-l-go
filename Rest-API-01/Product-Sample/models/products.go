@@ -14,11 +14,25 @@ func CreateProduct(products *[]Product, product *Product) (result *[]Product, er
 	return products, nil
 }
 
-// Get Product By Id
+// Get the Product By Id
 func GetProductById(products *[]Product, id int) (product Product) {
 	for _, item := range *products {
 		if item.Id == id {
 			return item
+		}
+	}
+	return Product{}
+}
+
+// Update the Product By Id
+func UpdateProductById(products *[]Product, newProduct *Product) (product Product) {
+	for index, item := range *products {
+		if item.Id == (*newProduct).Id {
+			(*products)[index].Name = (*newProduct).Name
+			(*products)[index].Price = (*newProduct).Price
+			(*products)[index].Stock = (*newProduct).Stock
+
+			return (*products)[index]
 		}
 	}
 	return Product{}
