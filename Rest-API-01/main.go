@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"jloka/jloka/calculator"
 	"log"
 	"net/http"
 	"os"
@@ -71,6 +72,14 @@ func main() {
 
 	r.POST("/handleProduct", handleProduct)
 	r.POST("/handleProducts", handleProducts)
+
+	r3 := r.Group("/calculator")
+	{
+		r3.POST("/add", calculator.Add)
+		r3.POST("/substract", calculator.Subtract)
+		r3.POST("/multiply", calculator.Multiply)
+		r3.POST("/divide", calculator.Divide)
+	}
 
 	fmt.Println("The port is: ", os.Getenv("PORT"))
 	fmt.Println("The host is: ", os.Getenv("HOST"))
