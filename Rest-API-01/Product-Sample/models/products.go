@@ -13,3 +13,13 @@ func CreateProduct(products *[]Product, product *Product) (result *[]Product, er
 
 	return products, nil
 }
+
+// Get Product By Id
+func GetProductById(products *[]Product, id int) (product Product) {
+	for _, item := range *products {
+		if item.Id == id {
+			return item
+		}
+	}
+	return Product{}
+}
