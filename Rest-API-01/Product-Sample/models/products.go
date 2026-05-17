@@ -14,9 +14,9 @@ func (r *Product) CreateProduct(products *[]Product) (err error) {
 }
 
 // Get the Product By Id
-func (r *Product) GetProductById(products *[]Product) (product Product) {
+func GetProductById(products *[]Product, id int) (product Product) {
 	for _, item := range *products {
-		if item.Id == r.Id {
+		if item.Id == id {
 			return item
 		}
 	}
@@ -24,12 +24,12 @@ func (r *Product) GetProductById(products *[]Product) (product Product) {
 }
 
 // Update the Product By Id
-func (r *Product) UpdateProductById(products *[]Product) (product Product) {
+func UpdateProductById(products *[]Product, NewProduct Product) (product Product) {
 	for index, item := range *products {
-		if item.Id == (*r).Id {
-			(*products)[index].Name = (*r).Name
-			(*products)[index].Price = (*r).Price
-			(*products)[index].Stock = (*r).Stock
+		if item.Id == product.Id {
+			(*products)[index].Name = product.Name
+			(*products)[index].Price = product.Price
+			(*products)[index].Stock = product.Stock
 
 			return (*products)[index]
 		}
